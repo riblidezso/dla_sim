@@ -16,6 +16,7 @@ import scipy.spatial
 import numpy as np
 import pickle
 import datetime
+import os
 
 
 def step(x,y):
@@ -80,7 +81,12 @@ def grow(agg=None,npart=10000):
 if __name__=='__main__':
     M = 10000
     N = 1000
-    agg = grow(npart=N) 
+
+    if os.path.isfile('agg.pkl'):
+        agg = pickle.load(open('agg.pkl','rb'))
+    else:
+        agg = grow(npart=N) 
+
     for i in xrange(M):
         N_oldagg = len(agg)
         agg = grow(agg,npart=N) # create the aggregate
