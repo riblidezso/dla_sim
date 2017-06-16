@@ -34,7 +34,7 @@ def get_ml(agg, rl, i=None):
     return ml
 
 
-def get_dq(agg,q,n=10, rl = xrange(20,40,2), plot=False):
+def get_dq(agg,q,n=10, rl = xrange(20,50,2), plot=False):
     """Calculate D(q) at a given q."""
 
     # _,r = seed_circle(agg)  # get the size of agg
@@ -61,7 +61,7 @@ def get_dq(agg,q,n=10, rl = xrange(20,40,2), plot=False):
 if __name__=='__main__':
     M = 50
     N = 1000
-    q = range(-9,1) + range(2,10) # q points
+    q = range(-8,1) + range(2,9) # q points
     
     agg = pickle.load(open('agg.pkl','rb')) # load large agg
      
