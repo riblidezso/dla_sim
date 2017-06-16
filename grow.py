@@ -30,20 +30,22 @@ def step(x,y):
 
 def walk(agg):
     """Simlate Brown motion until attached, or out."""
-    (xc,yc),r = seed_circle(agg) # calculate seed circle
-    x,y = get_initial_pos(xc,yc,r) # start from afar
-    while True: # I like to live dangerously
-        x,y = step(x,y) # make one step
-        if too_far(x,y,xc,yc,r): # check if we got too far
-            break # if yes abandon this particle
+    (xc,yc),r = seed_circle(agg)  # calculate seed circle
+    x,y = get_initial_pos(xc,yc,r)  # start from afar
+    route=[]   # save route, only for demo purposes
+    while True:  # I like to live dangerously
+        x,y = step(x,y)  # make one step
+        route.append((x,y))  # save step into route
+        if too_far(x,y,xc,yc,r):  # check if we got too far
+            break  # if yes abandon this particle
         # check if next to aggregate
         if (((x-1,y) in agg) or  ((x+1,y) in agg) or
-            ((x,y-1) in agg) or  ((x,y+1) in agg) or 
-            ((x-1,y-1) in agg) or  ((x+1,y+1) in agg) or 
-            ((x-1,y+1) in agg) or  ((x+1,y-1) in agg)):
-            agg[(x,y)]=len(agg) # attach if yes
-            break # finished
-    return agg
+            ((x,y-1) in agg) or  ((x,y+1) in agg) ):
+            # ((x-1,y-1) in agg) or  ((x+1,y+1) in agg) or 
+            # ((x-1,y+1) in agg) or  ((x+1,y-1) in agg)):
+            agg[(x,y)]=len(agg)  # attach if yes
+            break  # finished
+    return agg,route
 
 
 def seed_circle(agg):
@@ -74,7 +76,7 @@ def grow(agg=None,npart=10000):
     if agg is None:  # if not contin
         agg={(0,0):0} # 0th point at (0,0)
     for i in range(npart):
-        agg = walk(agg) # try to attach
+        agg,_ = walk(agg) # try to attach
     return agg
 
 
