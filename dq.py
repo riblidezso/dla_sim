@@ -59,8 +59,8 @@ def get_dq(agg,q,n=10, rl = xrange(20,40,2), plot=False):
     return a
 
 if __name__=='__main__':
-    M = 10
-    N = 5000
+    M = 50
+    N = 1000
     q = range(-9,1) + range(2,10) # q points
     
     agg = pickle.load(open('agg.pkl','rb')) # load large agg
