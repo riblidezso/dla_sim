@@ -2,7 +2,7 @@
 
 ---
 
-In this notebook I am simulating [diffusion limited aggregation](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation), and calculate the objects fractal dimension.
+In this notebook I am simulating [diffusion limited aggregation](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation), and calculate the objects fractal dimension, and multifractal spectrum and plot some interactive plots about the growing cluster and the attachment of particles to the cluster.
 
 
 ### Description of the simulation
@@ -17,7 +17,17 @@ I decided to implement the aggregate as a dictionary. The keys are the coordinat
 
 ### Calculating the objects  fractal dimension
 
-I calculate the objects fractal dimension using the [Correlation dimension](https://en.wikipedia.org/wiki/Correlation_dimension).
+I calculate the objects fractal dimension using the [Correlation dimension](https://en.wikipedia.org/wiki/Correlation_dimension). The expected result is $D=1.71$ .
+
+
+### Calculating the objects multifractal spectrum
+
+Simply using the definition, and multiple pivot points. The distances are running from 20 to 50. Vicsek et al uses 100x cutting at the edges, I don't have that large aggregate.
+
+
+References
+
+* Vicsek, T., F. Family, and P. Meakin. "Multifractal geometry of diffusion-limited aggregates." EPL (Europhysics Letters) 12.3 (1990): 217.
 
 ---
 
