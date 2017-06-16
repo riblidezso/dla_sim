@@ -13,6 +13,7 @@ import scipy.optimize
 import numpy as np
 import pickle
 import datetime
+# from grow import seed_circle
 
 def get_ml(agg, rl, i=None):
     """Get the mass list with given r list."""
@@ -33,8 +34,12 @@ def get_ml(agg, rl, i=None):
     return ml
 
 
-def get_dq(agg,q,n=10, rl = xrange(20,50,5), plot=False):
+def get_dq(agg,q,n=10, rl = xrange(20,40,2), plot=False):
     """Calculate D(q) at a given q."""
+
+    # _,r = seed_circle(agg)  # get the size of agg
+    # rl = 
+
     # get the masses for n pivot points
     mll=[ get_ml(agg,rl) for i in xrange(n)]  
 
