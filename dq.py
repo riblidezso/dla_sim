@@ -54,7 +54,7 @@ def get_dq(agg,q,n=10, rl = xrange(20,50,5), plot=False):
     return a
 
 if __name__=='__main__':
-    M = 10000
+    M = 100
     N = 1000
     q = range(-9,1) + range(2,10) # q points
     
