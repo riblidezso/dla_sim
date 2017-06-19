@@ -13,12 +13,11 @@ import scipy.optimize
 import numpy as np
 import pickle
 import datetime
-# from grow import seed_circle
+import sys
 
-def get_ml(agg, rl, i=None):
+def get_ml(agg, rl):
     """Get the mass list with given r list."""
-    if i is None:  # init a random pivot point
-        i = random.randint(0,len(agg)-1)
+    i = random.randint(0,len(agg)-1)  # init a random pivot point
     c = agg.keys()[i]  # get its position
     
     pos = np.array(agg.keys())  # get position of all points
@@ -34,42 +33,38 @@ def get_ml(agg, rl, i=None):
     return ml
 
 
-def get_dq(agg,q,n=10, rl = xrange(20,50,2), plot=False):
+def get_Dq(agg, n=10, ql=range(-8,1) + range(2,9), 
+		   rl = xrange(50,60,1), plot=False):
     """Calculate D(q) at a given q."""
-
-    # _,r = seed_circle(agg)  # get the size of agg
-    # rl = 
-
     # get the masses for n pivot points
     mll=[ get_ml(agg,rl) for i in xrange(n)]  
 
-    # x,y per definition
+    Dq = [get_Dq_at_q(rl,mll,q) for q in ql]
+
+    return Dq
+
+
+def get_Dq_at_q(rl,mll,q):
+	# x,y per definition
     x = np.log10(rl) * (q-1)
     y = np.log10(np.mean(np.power(mll,q-1),axis=0)) 
 
     # fit linear on log log
     (a,b),pcov = scipy.optimize.curve_fit(lambda x,a,b: a*x+b, x, y)
     
-    if plot:  # plot to check
-        lab = 'coef = '+ "%.2f +/- %.2f"% (a, pcov[0,0]**0.5)
-        plt.plot(x, a*x+b, label=lab)
-        plt.plot(x,y,'o')
-        plt.legend()
-    
     return a
 
+
 if __name__=='__main__':
-    M = 50
-    N = 1000
-    q = range(-8,1) + range(2,9) # q points
-    
+    N_rep = int(sys.argv[1])  # number of reps
+    N_pivot = int(sys.argv[2])  # number of pivot points
+    rl = range(int(sys.argv[3]),int(sys.argv[4]))  # distange range
+    ql=range(-8,1) + range(2,9)  # q range is fixed
+
     agg = pickle.load(open('agg.pkl','rb')) # load large agg
      
     Dq=[]
-    for j in xrange(M): # multiple runs -> mean std
-        Dqi=[]
-        for qi in q:
-            Dqi.append(get_dq(agg,qi,n=N))
-            print datetime.datetime.now(),j,qi
-        Dq.append(Dqi)
-        pickle.dump((q,Dq),open('Dq.pkl','wb'))
+    for j in xrange(N_rep): # multiple runs -> mean std
+        Dq.append(get_Dq(agg,ql=ql,n=N_pivot,rl=rl))  # run one rep
+        print datetime.datetime.now(),j  # report
+        pickle.dump((ql,Dq),open('Dq.pkl','wb'))  # save it
