@@ -81,17 +81,18 @@ def grow(agg=None,npart=10000):
 
 
 if __name__=='__main__':
-    M = 10000
-    N = 1000
+    M = 10000  # basiaclly run forever ...
+    N = 1000  # number or particles lauched in a batch
 
-    if os.path.isfile('agg.pkl'):
+    if os.path.isfile('agg.pkl'):  # if agg exists continue growing it
         agg = pickle.load(open('agg.pkl','rb'))
-    else:
+    else:  # else start from scratch
         agg = grow(npart=N) 
 
     for i in xrange(M):
-        N_oldagg = len(agg)
+        N_oldagg = len(agg)  # calculate len only for reporting
         agg = grow(agg,npart=N) # create the aggregate
-        print datetime.datetime.now(),'Started',N,'particles',\
+        # report landing, growing stats
+        print datetime.datetime.now(),'Lauched',N,'particles',\
         len(agg)-N_oldagg,'landed, agg size:',len(agg)
         pickle.dump(agg,open('agg.pkl','wb'))
